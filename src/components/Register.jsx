@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const cohortName = "2303-ftb-et-web-pt";
 const baseUrl = `https://strangers-things.herokuapp.com/api/${cohortName}`;
@@ -6,6 +7,7 @@ const baseUrl = `https://strangers-things.herokuapp.com/api/${cohortName}`;
 export const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
 
   const handleChange = (event) => {
     setUsername(event.target.value);
@@ -18,6 +20,7 @@ export const Register = () => {
     setUsername("");
     setPassword("");
     console.log(password);
+    history.push('/Login');
   };
 
   const registerUser = async () => {

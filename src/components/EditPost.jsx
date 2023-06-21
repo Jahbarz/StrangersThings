@@ -39,15 +39,10 @@ export const EditPost = ({ token, postNum, userData }) => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    updatePost();
-    // setTitle("");
-    // setDescription("");
-    // setPrice("");
-    // setChecked(false);
-    // setEditPost(false);
-    history.push("/");
+    await updatePost();
+    history.push("/Profile");
   };
 
   useEffect(() => {
@@ -55,14 +50,6 @@ export const EditPost = ({ token, postNum, userData }) => {
       localStorage.setItem("userData", JSON.stringify(userData));
     }
   }, [userData]);
-
-
-  // useEffect(() => {
-  //   const storedPostId = postIdNum;
-  //   if (storedPostId) {
-  //     setPostIdNum(storedPostId);
-  //   }
-  // }, [postIdNum, setPostIdNum]);
 
   return (
     <form onSubmit={handleSubmit}>

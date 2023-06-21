@@ -1,10 +1,9 @@
-import { useState } from "react";
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   const logOut = () => {
     localStorage.removeItem("token");
-    window.location.replace('/');
+    window.location.replace('/Login');
   };
   return (
     <>

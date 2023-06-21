@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-import { storeToken } from "..";
+
 
 const cohortName = "2303-ftb-et-web-pt";
 const baseUrl = `https://strangers-things.herokuapp.com/api/${cohortName}`;
@@ -21,7 +21,6 @@ export const Login = () => {
     setUsername("");
     setPassword("");
     console.log(password);
-    window.location.replace('/');
   };
 
   const login = async () => {
@@ -42,9 +41,10 @@ export const Login = () => {
       const tok = result.data.token;
       localStorage.setItem("token", tok);
       console.log("loginResponse", `localStorage set with token value: ${tok}`);
+      history.push('/Profile');
       return result;
     } catch (err) {
-      console.error(err);
+      console.error("Unable to login. Please Try Again.");
     }
   };
 

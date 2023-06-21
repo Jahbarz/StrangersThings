@@ -10,7 +10,8 @@ export const Profile = ({ token, setPostIdNum, postIdNum}) => {
   const [userData, setUserData] = useState(null);
   const [editPost, setEditPost] = useState(false);
   const [postNum, setPostNum] = useState('');
- 
+  const history = useHistory();
+
   const handleClick = (event) => {
     event.preventDefault();
     setPostNum(event.target.id);
@@ -18,7 +19,7 @@ export const Profile = ({ token, setPostIdNum, postIdNum}) => {
     setEditPost(true);
   };
  
-  const history = useHistory();
+  
 
   const deletePost = async (postId) => {
     try {
@@ -36,6 +37,11 @@ export const Profile = ({ token, setPostIdNum, postIdNum}) => {
           ...prevUserData,
           posts: prevUserData.posts.filter((post) => post._id !== postId),
         }));
+        const updatedUserData = {
+          ...userData,
+          posts: userData.posts.filter((post) => post._id !== postId),
+        };
+        localStorage.setItem("userData", JSON.stringify(updatedUserData));
       }
       return result;
     } catch (err) {
@@ -51,12 +57,13 @@ export const Profile = ({ token, setPostIdNum, postIdNum}) => {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log(response);
         const result = await response.json();
         console.log(result);
         setUserData(result.data);
         return result;
       } catch (err) {
-      console.error(err);
+        console.error(err);
       }
     };
 
@@ -67,16 +74,6 @@ export const Profile = ({ token, setPostIdNum, postIdNum}) => {
         setUserData(null);
       }
     }, [!token]);
-
-    // useEffect(() => {
-    //   const storedUserData = localStorage.getItem("userData");
-  
-    //   if (storedUserData) {
-    //     setUserData(JSON.parse(storedUserData));
-    //   } else {
-    //     fetchUserData();
-    //   }
-    // }, []);
   
     useEffect(() => {
       if (userData) {
@@ -104,20 +101,20 @@ export const Profile = ({ token, setPostIdNum, postIdNum}) => {
               {userData.messages && userData.messages.length ? (
                 <div>
                   <div id="index-span">
-                  <h3 id="inbox"> Inbox ({userData.messages.length})</h3>
-                  {userData.messages.map((message) => {
-                    return (
-                      <div id="message" key={message._id}>
-                        <label id="sender">{message.fromUser.username}</label>
-                        <p id="message-content">{message.content}</p>
-                      </div>
-                    );
-                  })}
+                    <h3 id="inbox"> Inbox ({userData.messages.length})</h3>
+                    {userData.messages.map((message) => {
+                      return (
+                        <div id="message" key={message._id}>
+                          <label id="sender">{message.fromUser.username}</label>
+                          <p id="message-content">{message.content}</p>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               ) : (
                 <h3>You haven't received any messages yet.</h3>
-              )};
+              )}
 
 
               {userData.posts && userData.posts.length > 0 && (
